@@ -46,8 +46,6 @@ generateButton.addEventListener("click", function () {
 
   const url = websiteUrl.value.trim();
 
-  // Vérifier si l'utilisateur a entré un lien
-
   if (url === "") {
 
     alert("⚠️ Veuillez entrer le lien de votre site.");
@@ -55,8 +53,6 @@ generateButton.addEventListener("click", function () {
     return;
   }
 
-
-  // Vérifier si le lien commence par http
 
   if (
     !url.startsWith("http://") &&
@@ -71,226 +67,249 @@ generateButton.addEventListener("click", function () {
   }
 
 
-  // Lancer la génération
-
   startGeneration(url);
 
 });
 
 
 // =========================
-// FONCTION GENERATION
+// DEMARRER GENERATION
 // =========================
 
-function startGeneration(url) {
-
-  // Cacher le résultat précédent
+async function startGeneration(url) {
 
   resultSection.classList.add("hidden");
 
-
-  // Afficher le chargement
-
   loadingSection.classList.remove("hidden");
 
-
-  // Aller vers la section de chargement
-
   loadingSection.scrollIntoView({
-
     behavior: "smooth"
-
   });
 
-
-  // Désactiver le bouton
 
   generateButton.disabled = true;
 
   generateButton.innerHTML =
-    "⏳ Génération en cours...";
+    "⏳ Analyse en cours...";
 
 
-  // Démarrer les étapes
+  progressBar.style.width = "20%";
 
-  runGenerationSteps(url);
+  loadingText.textContent =
+    "🔗 Envoi du lien vers notre serveur...";
+
+
+  activateStep("step1");
+
+
+  try {
+
+    // =========================
+    // ENVOYER LE LIEN AU BACKEND
+    // =========================
+
+    const response = await fetch(
+      "/api/generate",
+      {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+
+        body: JSON.stringify({
+          url: url
+        })
+
+      }
+    );
+
+
+    // Lire la réponse
+
+    const data =
+      await response.json();
+
+
+    // Vérifier si le backend a envoyé une erreur
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.message ||
+        "Erreur serveur"
+      );
+
+    }
+
+
+    // =========================
+    // SIMULATION VISUELLE
+    // =========================
+
+    await wait(700);
+
+    activateStep("step2");
+
+    progressBar.style.width = "40%";
+
+    loadingText.textContent =
+      "📸 Préparation de l'analyse du site...";
+
+
+    await wait(700);
+
+    activateStep("step3");
+
+    progressBar.style.width = "60%";
+
+    loadingText.textContent =
+      "🤖 Analyse du contenu par IA...";
+
+
+    await wait(700);
+
+    activateStep("step4");
+
+    progressBar.style.width = "80%";
+
+    loadingText.textContent =
+      "✍️ Création du Hook et du CTA...";
+
+
+    await wait(700);
+
+    activateStep("step5");
+
+    progressBar.style.width = "100%";
+
+    loadingText.textContent =
+      "🎬 Préparation du résultat...";
+
+
+    await wait(700);
+
+
+    // Afficher le résultat reçu
+
+    showResult(data);
+
+
+  } catch (error) {
+
+    console.error(error);
+
+
+    alert(
+      "❌ Erreur : " +
+      error.message
+    );
+
+
+    loadingSection.classList.add(
+      "hidden"
+    );
+
+
+    generateButton.disabled = false;
+
+    generateButton.innerHTML =
+      "✨ Générer ma vidéo";
+
+  }
 
 }
 
 
 // =========================
-// ETAPES DE GENERATION
+// ACTIVER UNE ETAPE
 // =========================
 
-function runGenerationSteps(url) {
+function activateStep(stepId) {
 
-  const steps = [
+  const steps = document.querySelectorAll(
+    ".generation-step"
+  );
 
-    {
-      id: "step1",
-      text: "🔗 Lien reçu...",
-      progress: 20
-    },
-
-    {
-      id: "step2",
-      text: "📸 Capture du site web...",
-      progress: 40
-    },
-
-    {
-      id: "step3",
-      text: "🤖 Analyse du site par IA...",
-      progress: 60
-    },
-
-    {
-      id: "step4",
-      text: "✍️ Création du Hook et du script...",
-      progress: 80
-    },
-
-    {
-      id: "step5",
-      text: "🎬 Préparation de la vidéo TikTok...",
-      progress: 100
-    }
-
-  ];
-
-
-  let currentStep = 0;
-
-
-  // Réinitialiser les étapes
 
   steps.forEach(function (step) {
 
-    const element =
-      document.getElementById(step.id);
-
-    element.classList.remove("active");
+    step.classList.remove(
+      "active"
+    );
 
   });
 
 
-  function nextStep() {
-
-    if (currentStep >= steps.length) {
-
-      // Lorsque toutes les étapes sont terminées
-
-      finishGeneration(url);
-
-      return;
-
-    }
+  const activeStep =
+    document.getElementById(stepId);
 
 
-    const step = steps[currentStep];
+  if (activeStep) {
 
-
-    // Activer l'étape
-
-    const element =
-      document.getElementById(step.id);
-
-    element.classList.add("active");
-
-
-    // Changer le texte
-
-    loadingText.textContent =
-      step.text;
-
-
-    // Changer la barre de progression
-
-    progressBar.style.width =
-      step.progress + "%";
-
-
-    currentStep++;
-
-
-    // Temps entre les étapes
-
-    setTimeout(
-      nextStep,
-      1200
+    activeStep.classList.add(
+      "active"
     );
 
   }
-
-
-  // Commencer
-
-  nextStep();
 
 }
 
 
 // =========================
-// FIN DE GENERATION
+// AFFICHER LE RESULTAT
 // =========================
 
-function finishGeneration(url) {
+function showResult(data) {
 
-  // Générer des textes temporaires
-
-  const domain =
-    getDomainName(url);
+  const video =
+    data.video;
 
 
-  const hook =
-    "🔥 Tu dois absolument découvrir " +
-    domain + " !";
-
-
-  const show =
-    "Ce site propose une solution simple et moderne pour gagner du temps et découvrir de nouvelles possibilités.";
-
-
-  const cta =
-    "🚀 Découvre le site maintenant !";
-
-
-  // Mettre les textes dans l'aperçu vidéo
+  // Mettre le Hook
 
   videoHook.textContent =
-    hook;
+    video.hook;
 
-
-  videoShow.textContent =
-    show;
-
-
-  videoCta.textContent =
-    "Découvrir maintenant 🚀";
-
-
-  // Mettre les textes dans les cartes
 
   hookText.textContent =
-    hook;
+    video.hook;
+
+
+  // Mettre la présentation
+
+  videoShow.textContent =
+    video.show;
 
 
   showText.textContent =
-    show;
+    video.show;
+
+
+  // Mettre le CTA
+
+  videoCta.textContent =
+    video.cta;
 
 
   ctaText.textContent =
-    cta;
+    video.cta;
 
 
   // Cacher le chargement
 
-  loadingSection.classList.add("hidden");
+  loadingSection.classList.add(
+    "hidden"
+  );
 
 
   // Afficher le résultat
 
-  resultSection.classList.remove("hidden");
+  resultSection.classList.remove(
+    "hidden"
+  );
 
 
   // Réactiver le bouton
@@ -313,32 +332,6 @@ function finishGeneration(url) {
 
 
 // =========================
-// RECUPERER LE NOM DU SITE
-// =========================
-
-function getDomainName(url) {
-
-  try {
-
-    const domain =
-      new URL(url).hostname;
-
-
-    return domain.replace(
-      "www.",
-      ""
-    );
-
-  } catch (error) {
-
-    return "ce site";
-
-  }
-
-}
-
-
-// =========================
 // NOUVELLE VIDEO
 // =========================
 
@@ -346,17 +339,13 @@ newVideoButton.addEventListener(
   "click",
   function () {
 
-    // Réinitialiser le lien
-
     websiteUrl.value = "";
 
 
-    // Cacher le résultat
+    resultSection.classList.add(
+      "hidden"
+    );
 
-    resultSection.classList.add("hidden");
-
-
-    // Retourner en haut
 
     window.scrollTo({
 
@@ -367,27 +356,23 @@ newVideoButton.addEventListener(
     });
 
 
-    // Mettre le curseur dans le champ
-
     setTimeout(function () {
 
       websiteUrl.focus();
 
-    }, 700);
+    }, 500);
 
   }
 );
 
 
 // =========================
-// BOUTON CTA FINAL
+// CTA FINAL
 // =========================
 
 startButton.addEventListener(
   "click",
   function () {
-
-    // Retourner vers le champ URL
 
     websiteUrl.scrollIntoView({
 
@@ -402,7 +387,7 @@ startButton.addEventListener(
 
       websiteUrl.focus();
 
-    }, 600);
+    }, 500);
 
   }
 );
@@ -416,7 +401,9 @@ websiteUrl.addEventListener(
   "keypress",
   function (event) {
 
-    if (event.key === "Enter") {
+    if (
+      event.key === "Enter"
+    ) {
 
       generateButton.click();
 
@@ -441,8 +428,28 @@ downloadButton.addEventListener(
   function () {
 
     alert(
-      "🎬 La génération réelle de la vidéo sera ajoutée lorsque notre backend sera connecté."
+      "🎬 La vraie génération et le téléchargement de la vidéo seront disponibles lorsque nous ajouterons le moteur vidéo."
     );
 
   }
 );
+
+
+// =========================
+// FONCTION ATTENTE
+// =========================
+
+function wait(milliseconds) {
+
+  return new Promise(
+    function (resolve) {
+
+      setTimeout(
+        resolve,
+        milliseconds
+      );
+
+    }
+  );
+
+    }
