@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Transformez n'importe quel site web en vidéo TikTok grâce à l'intelligence artificielle."
+  >
+
+  <title>SiteToTikTok AI - Transformez un site en vidéo</title>
+
+  <!-- Notre fichier CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- =========================
+       HEADER
+  ========================== -->
+
+  <header class="header">
+
+    <div class="logo">
+      <div class="logo-icon">🎬</div>
+
+      <h1>SiteToTikTok <span>AI</span></h1>
+    </div>
+
+    <nav class="nav">
+
+      <a href="#comment-ca-marche">
+        Comment ça marche ?
+      </a>
+
+      <a href="#fonctionnalites">
+        Fonctionnalités
+      </a>
+
+      <a href="#videos">
+        Mes vidéos
+      </a>
+
+    </nav>
+
+    <button class="login-button">
+      Connexion
+    </button>
+
+  </header>
+
+
+  <!-- =========================
+       SECTION PRINCIPALE
+  ========================== -->
+
+  <main>
+
+    <section class="hero">
+
+      <div class="hero-content">
+
+        <div class="badge">
+          🤖 Propulsé par l'intelligence artificielle
+        </div>
+
+        <h2>
+          Transformez n'importe quel
+          <span>site web</span>
+          en vidéo TikTok
+        </h2>
+
+        <p class="hero-description">
+          Collez simplement le lien de votre site.
+          Notre intelligence artificielle analyse votre site
+          et crée automatiquement une vidéo TikTok prête
+          à publier.
+        </p>
+
+
+        <!-- FORMULAIRE -->
+
+        <div class="url-generator">
+
+          <div class="input-container">
+
+            <span class="link-icon">
+              🔗
+            </span>
+
+            <input
+              type="url"
+              id="websiteUrl"
+              placeholder="https://www.votresite.com"
+              autocomplete="url"
+            >
+
+          </div>
+
+
+          <button
+            id="generateButton"
+            class="generate-button"
+          >
+
+            <span class="button-icon">
+              ✨
+            </span>
+
+            Générer ma vidéo
+
+          </button>
+
+        </div>
+
+
+        <p class="small-text">
+          🎬 Vidéo TikTok • 📱 Format 9:16 • 🤖 Générée par IA
+        </p>
+
+      </div>
+
+
+      <!-- ELEMENTS DECORATIFS -->
+
+      <div class="hero-decoration decoration-one"></div>
+      <div class="hero-decoration decoration-two"></div>
+
+    </section>
+
+
+    <!-- =========================
+         LOADING
+    ========================== -->
+
+    <section
+      id="loadingSection"
+      class="loading-section hidden"
+    >
+
+      <div class="loading-box">
+
+        <div class="loader"></div>
+
+        <h2>
+          Votre vidéo est en cours de préparation...
+        </h2>
+
+        <p id="loadingText">
+          Analyse du site web...
+        </p>
+
+
+        <div class="progress-container">
+
+          <div
+            id="progressBar"
+            class="progress-bar"
+          ></div>
+
+        </div>
+
+
+        <div class="generation-steps">
+
+          <div
+            id="step1"
+            class="generation-step active"
+          >
+
+            <span>🔗</span>
+
+            <p>
+              Lien reçu
+            </p>
+
+          </div>
+
+
+          <div
+            id="step2"
+            class="generation-step"
+          >
+
+            <span>📸</span>
+
+            <p>
+              Capture du site
+            </p>
+
+          </div>
+
+
+          <div
+            id="step3"
+            class="generation-step"
+          >
+
+            <span>🤖</span>
+
+            <p>
+              Analyse IA
+            </p>
+
+          </div>
+
+
+          <div
+            id="step4"
+            class="generation-step"
+          >
+
+            <span>✍️</span>
+
+            <p>
+              Script
+            </p>
+
+          </div>
+
+
+          <div
+            id="step5"
+            class="generation-step"
+          >
+
+            <span>🎬</span>
+
+            <p>
+              Vidéo
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         RESULTAT VIDEO
+    ========================== -->
+
+    <section
+      id="resultSection"
+      class="result-section hidden"
+    >
+
+      <div class="result-container">
+
+        <div class="result-title">
+
+          <div>
+
+            <span class="success-icon">
+              🎉
+            </span>
+
+            <h2>
+              Votre vidéo est prête !
+            </h2>
+
+            <p>
+              Voici votre vidéo générée automatiquement.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="video-result">
+
+          <!-- PREVIEW VIDEO -->
+
+          <div class="phone">
+
+            <div class="phone-top">
+
+              <div class="camera"></div>
+
+            </div>
+
+
+            <div class="video-preview">
+
+              <div class="preview-content">
+
+                <span class="preview-badge">
+                  SITE AI
+                </span>
+
+                <h2 id="videoHook">
+                  Découvrez ce site incroyable !
+                </h2>
+
+                <p id="videoShow">
+                  Une solution simple et rapide
+                  pour vous aider au quotidien.
+                </p>
+
+                <button id="videoCta">
+                  Découvrir maintenant 🚀
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <div class="phone-bottom"></div>
+
+          </div>
+
+
+          <!-- INFORMATIONS VIDEO -->
+
+          <div class="video-information">
+
+            <div class="info-card">
+
+              <h3>
+                🔥 Hook
+              </h3>
+
+              <p id="hookText">
+                Découvrez une nouvelle façon
+                de gagner du temps !
+              </p>
+
+            </div>
+
+
+            <div class="info-card">
+
+              <h3>
+                👀 Présentation
+              </h3>
+
+              <p id="showText">
+                L'IA présente automatiquement
+                les principales fonctionnalités
+                de votre site.
+              </p>
+
+            </div>
+
+
+            <div class="info-card">
+
+              <h3>
+                🎯 CTA
+              </h3>
+
+              <p id="ctaText">
+                Visitez le site maintenant !
+              </p>
+
+            </div>
+
+
+            <div class="video-actions">
+
+              <button
+                id="downloadButton"
+                class="download-button"
+              >
+
+                ⬇ Télécharger la vidéo
+
+              </button>
+
+
+              <button
+                id="newVideoButton"
+                class="new-video-button"
+              >
+
+                ✨ Créer une autre vidéo
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         COMMENT CA MARCHE
+    ========================== -->
+
+    <section
+      id="comment-ca-marche"
+      class="how-it-works"
+    >
+
+      <div class="section-header">
+
+        <span class="section-badge">
+          COMMENT ÇA MARCHE ?
+        </span>
+
+        <h2>
+          Votre site devient une vidéo
+          en quelques étapes
+        </h2>
+
+        <p>
+          Une intelligence artificielle s'occupe
+          automatiquement de tout le processus.
+        </p>
+
+      </div>
+
+
+      <div class="steps-grid">
+
+
+        <!-- ETAPE 1 -->
+
+        <div class="step-card">
+
+          <div class="step-number">
+            1
+          </div>
+
+          <div class="step-icon">
+            🔗
+          </div>
+
+          <h3>
+            Collez le lien
+          </h3>
+
+          <p>
+            Entrez simplement l'adresse
+            de votre site web.
+          </p>
+
+        </div>
+
+
+        <!-- ETAPE 2 -->
+
+        <div class="step-card">
+
+          <div class="step-number">
+            2
+          </div>
+
+          <div class="step-icon">
+            📸
+          </div>
+
+          <h3>
+            Capture automatique
+          </h3>
+
+          <p>
+            Notre système ouvre votre site
+            et capture les parties importantes.
+          </p>
+
+        </div>
+
+
+        <!-- ETAPE 3 -->
+
+        <div class="step-card">
+
+          <div class="step-number">
+            3
+          </div>
+
+          <div class="step-icon">
+            🤖
+          </div>
+
+          <h3>
+            Analyse IA
+          </h3>
+
+          <p>
+            L'intelligence artificielle comprend
+            votre site et ses fonctionnalités.
+          </p>
+
+        </div>
+
+
+        <!-- ETAPE 4 -->
+
+        <div class="step-card">
+
+          <div class="step-number">
+            4
+          </div>
+
+          <div class="step-icon">
+            ✍️
+          </div>
+
+          <h3>
+            Script viral
+          </h3>
+
+          <p>
+            L'IA crée automatiquement
+            un Hook, une présentation
+            et un CTA.
+          </p>
+
+        </div>
+
+
+        <!-- ETAPE 5 -->
+
+        <div class="step-card">
+
+          <div class="step-number">
+            5
+          </div>
+
+          <div class="step-icon">
+            🎬
+          </div>
+
+          <h3>
+            Vidéo prête
+          </h3>
+
+          <p>
+            Téléchargez votre vidéo TikTok
+            prête à être publiée.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         FONCTIONNALITES
+    ========================== -->
+
+    <section
+      id="fonctionnalites"
+      class="features"
+    >
+
+      <div class="section-header">
+
+        <span class="section-badge">
+          PUISSANCE DE L'IA
+        </span>
+
+        <h2>
+          Tout ce dont vous avez besoin
+          pour créer une vidéo virale
+        </h2>
+
+      </div>
+
+
+      <div class="features-grid">
+
+
+        <div class="feature-card">
+
+          <div class="feature-icon">
+            📸
+          </div>
+
+          <h3>
+            Captures automatiques
+          </h3>
+
+          <p>
+            Le système capture automatiquement
+            votre site et ses sections importantes.
+          </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+          <div class="feature-icon">
+            🔥
+          </div>
+
+          <h3>
+            Hooks puissants
+          </h3>
+
+          <p>
+            L'IA crée des phrases accrocheuses
+            pour attirer l'attention.
+          </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+          <div class="feature-icon">
+            🎙️
+          </div>
+
+          <h3>
+            Voix IA
+          </h3>
+
+          <p>
+            Transformez votre script
+            en narration professionnelle.
+          </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+          <div class="feature-icon">
+            📝
+          </div>
+
+          <h3>
+            Sous-titres
+          </h3>
+
+          <p>
+            Des sous-titres automatiques
+            apparaissent dans votre vidéo.
+          </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+          <div class="feature-icon">
+            ✨
+          </div>
+
+          <h3>
+            Effets dynamiques
+          </h3>
+
+          <p>
+            Ajoutez automatiquement
+            des animations et transitions.
+          </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+          <div class="feature-icon">
+            📱
+          </div>
+
+          <h3>
+            Format TikTok
+          </h3>
+
+          <p>
+            Votre vidéo est générée
+            directement au format vertical 9:16.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         MES VIDEOS
+    ========================== -->
+
+    <section
+      id="videos"
+      class="videos-section"
+    >
+
+      <div class="section-header">
+
+        <span class="section-badge">
+          VOS CRÉATIONS
+        </span>
+
+        <h2>
+          Mes vidéos générées
+        </h2>
+
+        <p>
+          Vos prochaines vidéos apparaîtront ici.
+        </p>
+
+      </div>
+
+
+      <div
+        id="videosContainer"
+        class="videos-grid"
+      >
+
+        <div class="empty-videos">
+
+          <div class="empty-icon">
+            🎬
+          </div>
+
+          <h3>
+            Aucune vidéo pour le moment
+          </h3>
+
+          <p>
+            Collez le lien de votre site
+            pour créer votre première vidéo.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CTA FINAL
+    ========================== -->
+
+    <section class="final-cta">
+
+      <div class="final-cta-content">
+
+        <span>
+          🚀 PRÊT À COMMENCER ?
+        </span>
+
+        <h2>
+          Transformez votre site
+          en contenu TikTok
+        </h2>
+
+        <p>
+          Ne perdez plus de temps à créer
+          manuellement vos vidéos.
+        </p>
+
+        <button
+          id="startButton"
+          class="generate-button"
+        >
+
+          ✨ Créer ma première vidéo
+
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
+  <footer class="footer">
+
+    <div class="footer-logo">
+
+      🎬 SiteToTikTok AI
+
+    </div>
+
+
+    <p>
+      © 2026 SiteToTikTok AI.
+      Tous droits réservés.
+    </p>
+
+
+    <div class="footer-links">
+
+      <a href="#">
+        Confidentialité
+      </a>
+
+      <a href="#">
+        Conditions
+      </a>
+
+      <a href="#">
+        Contact
+      </a>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =========================
+       SCRIPT JAVASCRIPT
+  ========================== -->
+
+  <script src="script.js"></script>
+
+</body>
+        </html>
